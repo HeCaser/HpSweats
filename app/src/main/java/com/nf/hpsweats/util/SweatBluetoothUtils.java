@@ -59,12 +59,15 @@ public class SweatBluetoothUtils {
 //                sweatOrderTypeCollectOver  = 0xff,//历史数据已经读取完毕
 
         //5，命令 4字节
-        if (commandType == SweatConfiguration.COMMAND_TYPE_READ_DATA) {
-            writeByteList.add((byte) 0x00);
-            writeByteList.add((byte) 0x06);
-        } else if (commandType == SweatConfiguration.COMMAND_TYPE_SET_FREQ) {
+        if (commandType == SweatConfiguration.COMMAND_TYPE_START) {
             writeByteList.add((byte) 0x00);
             writeByteList.add((byte) 0x04);
+        } else if (commandType == SweatConfiguration.COMMAND_TYPE_STOP) {
+            writeByteList.add((byte) 0x00);
+            writeByteList.add((byte) 0x05);
+        } else if (commandType == SweatConfiguration.COMMAND_TYPE_READ_DATA) {
+            writeByteList.add((byte) 0x00);
+            writeByteList.add((byte) 0x06);
         }
 
         //6 标识两位 0x00 0x00

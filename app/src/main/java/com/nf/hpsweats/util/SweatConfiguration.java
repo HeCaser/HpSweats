@@ -16,7 +16,10 @@ public class SweatConfiguration {
 
     public static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
 
-    public static final int COMMAND_TYPE_READ_DATA = 0;//读取数据
+    public static final int COMMAND_TYPE_STATE = 3;//读取设备状态
+    public static final int COMMAND_TYPE_START = 4;//开始
+    public static final int COMMAND_TYPE_STOP = 5;//停止
+    public static final int COMMAND_TYPE_READ_DATA = 6;//读取历史数据
     public static final int COMMAND_TYPE_SET_FREQ = 1;//设置频率
 
 
