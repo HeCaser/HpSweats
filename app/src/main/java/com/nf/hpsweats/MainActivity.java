@@ -1,19 +1,25 @@
 package com.nf.hpsweats;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nf.hpsweats.util.GetToast;
 
@@ -25,6 +31,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final long INTERVAL_TIME = 3 * 1000;
+    private static final int REQUEST_COARSE_LOCATION = 0;
     @Bind(R.id.btn_scan)
     Button btnScan;
     @Bind(R.id.lv_devices)
@@ -57,6 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ButterKnife.bind(this);
         initBluetooth();
         initListener();
+        mayRequestLocation();
     }
 
     /********
@@ -100,7 +108,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnScan.setOnClickListener(this);
         btnConnect.setOnClickListener(this);
     }
+    private void mayRequestLocation() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                //判断是否需要 向用户解释，为什么要申请该权限
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
+                    Toast.makeText(this, "动态请求权限", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_COARSE_LOCATION);
+                return;
+            } else {
 
+            }
+        } else {
+
+        }
+    }
+    //系统方法,从requestPermissions()方法回调结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //确保是我们的请求
+        if (requestCode == REQUEST_COARSE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "权限被授予", Toast.LENGTH_SHORT).show();
+            } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "权限被拒绝", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
