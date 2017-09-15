@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.nf.hpsweats.util.Constants;
 import com.nf.hpsweats.util.LogUtil;
+import com.nf.hpsweats.util.SweatConfiguration;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +55,7 @@ public class ConnectActivity extends Activity {
                 case READ_DATA:
                     //读取数据命令
                     if (mBluetoothLeService != null) {
-//                        mBluetoothLeService.sendCommandToSweat(SweatConfiguration.COMMAND_TYPE_READ_DATA, 10);
+                        mBluetoothLeService.sendCommandToSweat(SweatConfiguration.COMMAND_TYPE_READ_DATA, 10);
                         //重复读取,间隔为collection_frequency,但最少要间隔5秒
 //                        if (collection_frequency >= 5) {
 //                            removeMessages(READ_DATA);
@@ -135,6 +136,7 @@ public class ConnectActivity extends Activity {
 //                mBluetoothLeService.sendCommandToSweat(SweatConfiguration.COMMAND_TYPE_SET_FREQ, 0);
                 //延时发送读取数据
                 mHandler.sendEmptyMessageDelayed(CONNECT_DEVICES, 2000);
+                mHandler.sendEmptyMessageDelayed(READ_DATA, 1000);
                 tvHint.setText("蓝牙就绪");
             } else if (SweatServiceFastBle.ACTION_DATA_AVAILABLE.equals(action)) {
                 byte[] data = intent.getByteArrayExtra(SweatServiceFastBle.EXTRA_DATA);

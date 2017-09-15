@@ -11,6 +11,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 
@@ -19,6 +20,8 @@ import com.clj.fastble.conn.BleCharacterCallback;
 import com.clj.fastble.conn.BleGattCallback;
 import com.clj.fastble.exception.BleException;
 import com.nf.hpsweats.util.LogUtil;
+import com.nf.hpsweats.util.ProtocolParser;
+import com.nf.hpsweats.util.SweatBluetoothUtils;
 import com.nf.hpsweats.util.SweatConfiguration;
 
 /**
@@ -186,31 +189,31 @@ public class SweatServiceFastBle extends Service {
                 });
     }
 
-//    public boolean sendCommandToSweat(int commandType, int sampleFre) {
-//        //获得发送命令
-//        byte[] writeByte = SweatBluetoothUtils.getCommandByte(commandType, sampleFre);
-//
-//        try {
-//            if (commandType == SweatConfiguration.COMMAND_TYPE_READ_DATA) {
-//                LogUtil.e("设备1发送读取命令", ProtocolParser.binaryToHexString(writeByte) + ">>>>" + writeByte.length);
-//            } else if (commandType == SweatConfiguration.COMMAND_TYPE_SET_FREQ) {
-//                LogUtil.e("设备1发送频率命令", ProtocolParser.binaryToHexString(writeByte) + ">>>>" + writeByte.length);
-//            }
-//            byte[] writeByteOne = new byte[20];
-//            byte[] writeByteTwo = new byte[writeByte.length - 20];
-//            System.arraycopy(writeByte, 0, writeByteOne, 0, 20);
-//            System.arraycopy(writeByte, 20, writeByteTwo, 0, writeByteTwo.length);
-//            LogUtil.e("设备1分块", ProtocolParser.binaryToHexString(writeByteOne) + "\n" + ProtocolParser.binaryToHexString(writeByteTwo));
-//            mBleManager.writeDevice(SweatConfiguration.SERVICE_UUID, SweatConfiguration.WRITE_UUID, writeByteOne, mBleCharacterCallback);
-//            SystemClock.sleep(20);
-//            mBleManager.writeDevice(SweatConfiguration.SERVICE_UUID, SweatConfiguration.WRITE_UUID, writeByteTwo, mBleCharacterCallback);
-//        } catch (Exception e) {
-//            LogUtil.e("设备1发送命令失败");
-//            LogUtil.exception(e);
-//            return false;
-//        }
-//        return true;
-//    }
+    public boolean sendCommandToSweat(int commandType, int sampleFre) {
+        //获得发送命令
+        byte[] writeByte = SweatBluetoothUtils.getCommandByte(commandType, sampleFre);
+
+        try {
+            if (commandType == SweatConfiguration.COMMAND_TYPE_READ_DATA) {
+                LogUtil.e("设备1发送读取命令", ProtocolParser.binaryToHexString(writeByte) + ">>>>" + writeByte.length);
+            } else if (commandType == SweatConfiguration.COMMAND_TYPE_SET_FREQ) {
+                LogUtil.e("设备1发送频率命令", ProtocolParser.binaryToHexString(writeByte) + ">>>>" + writeByte.length);
+            }
+            byte[] writeByteOne = new byte[20];
+            byte[] writeByteTwo = new byte[writeByte.length - 20];
+            System.arraycopy(writeByte, 0, writeByteOne, 0, 20);
+            System.arraycopy(writeByte, 20, writeByteTwo, 0, writeByteTwo.length);
+            LogUtil.e("设备1分块", ProtocolParser.binaryToHexString(writeByteOne) + "\n" + ProtocolParser.binaryToHexString(writeByteTwo));
+            mBleManager.writeDevice(SweatConfiguration.SERVICE_UUID, SweatConfiguration.WRITE_UUID, writeByteOne, mBleCharacterCallback);
+            SystemClock.sleep(20);
+            mBleManager.writeDevice(SweatConfiguration.SERVICE_UUID, SweatConfiguration.WRITE_UUID, writeByteTwo, mBleCharacterCallback);
+        } catch (Exception e) {
+            LogUtil.e("设备1发送命令失败");
+            LogUtil.exception(e);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 发送命令的回调
