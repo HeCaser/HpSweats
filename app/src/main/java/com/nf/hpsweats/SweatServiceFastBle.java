@@ -124,7 +124,7 @@ public class SweatServiceFastBle extends Service {
             @Override
             public void onConnectFailure(BleException exception) {
                 broadcastUpdate(ACTION_GATT_DISCONNECTED);
-                System.out.println("设备连接失败,地址: "+ macAddress);
+                System.out.println("设备连接失败,地址: " + macAddress);
                 if (handler != null) {
 //                    handler.removeMessages(SCAN_AND_CONNECT);//移除残留队列的重连
 //                    handler.sendEmptyMessageDelayed(SCAN_AND_CONNECT, RECONNECT_WAIT_TIME);
@@ -220,7 +220,7 @@ public class SweatServiceFastBle extends Service {
         @Override
         public void onFailure(BleException exception) {
             broadcastUpdate(ACTION_SEND_COMMAND_FAILURE);
-            LogUtil.e("设备1发送命令失败回调,地址: "+ mAddress + exception.getDescription());
+            LogUtil.e("设备1发送命令失败回调,地址: " + mAddress + exception.getDescription());
         }
 
         @Override
