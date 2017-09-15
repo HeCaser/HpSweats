@@ -1,0 +1,8 @@
+一，获得想要连接的从机设备 BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+
+二用以上获得的设备的connectGatt方法获取其对应的BluetoothGatt，并加到你创建的专门存放Gatt的ArrayList里。这里我用的是set而不是add
+，这是因为我在初始化ArrayList时就添加了几个空gatt类，也是我以后断开秒连做准备。
+BluetoothGatt bluetoothGatt;<br>bluetoothGatt = device.connectGatt(this, false, mGattCallback);
+DeviceManager.<i>connectionQueue</i>.set(0, bluetoothGatt);
+
+三,gatt的回调函数只用重写一次。每次进回调函数时，用gatt的equal方法判断到底是哪个设备的gatt，再做相应操作即可.

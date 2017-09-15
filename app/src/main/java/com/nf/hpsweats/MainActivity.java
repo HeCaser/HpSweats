@@ -30,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    private static final long INTERVAL_TIME = 3 * 1000;
+    private static final long INTERVAL_TIME = 5 * 1000;
     private static final int REQUEST_COARSE_LOCATION = 0;
     @Bind(R.id.btn_scan)
     Button btnScan;
@@ -108,6 +108,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnScan.setOnClickListener(this);
         btnConnect.setOnClickListener(this);
     }
+
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -124,6 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         }
     }
+
     //系统方法,从requestPermissions()方法回调结果
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -138,11 +140,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_connect:
-                Intent intent = new Intent(this, ConnectActivity.class);
+                Intent intent = new Intent(this, ConnectActivity2.class);
                 String[] address = new String[devices.size()];
                 for (int i = 0; i < devices.size(); i++) {
                     address[i] = devices.get(i).getAddress();
@@ -204,5 +207,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
             deviceNames[i] = "汗液仪-" + address.replace(":", "");
         }
         lvDevices.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, deviceNames));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //关闭蓝牙
+        if (mBluetoothAdapter != null) {
+            mBluetoothAdapter.disable();
+        }
     }
 }

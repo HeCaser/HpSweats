@@ -58,7 +58,9 @@
             </intent-filter>
         </activity>
         <service android:name=".SweatServiceFastBle"></service>
+
         <activity android:name=".ConnectActivity"></activity>
+        <activity android:name=".ConnectActivity2"></activity>
     </application>
 
 </manifest>
