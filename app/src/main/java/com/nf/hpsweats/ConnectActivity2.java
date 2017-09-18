@@ -207,6 +207,7 @@ public class ConnectActivity2 extends Activity implements View.OnClickListener {
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 //                GetToast.useString(cnt, "设备断开连接");
+                tvHint2.setText("设备断开,地址: " + address);
                 mBluetoothGatt.remove(address);
             }
         }
@@ -214,8 +215,8 @@ public class ConnectActivity2 extends Activity implements View.OnClickListener {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             String address = gatt.getDevice().getAddress();
-            LogUtil.e(Constants.LOG_TAG, "发现服务:地址 " + address);
             if (!mBluetoothGatt.containsKey(address)) {
+                LogUtil.e(Constants.LOG_TAG, "发现服务:地址 " + address);
                 mBluetoothGatt.put(address, gatt);
             }
 
@@ -289,6 +290,10 @@ public class ConnectActivity2 extends Activity implements View.OnClickListener {
         BluetoothGattService service;
         BluetoothGattCharacteristic writeCharacter;
         try {
+            if (mBluetoothGatt.size() == 0) {
+                tvHint2.setText("所有设备均已断开,请重新连接.");
+                return true;
+            }
             Iterator iter = mBluetoothGatt.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
