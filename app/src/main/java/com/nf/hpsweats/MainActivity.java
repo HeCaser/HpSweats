@@ -40,6 +40,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     TextView tvHint;
     @Bind(R.id.btn_connect)
     Button btnConnect;
+    @Bind(R.id.btn_test)
+    Button btnTest;
 
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback;
@@ -107,6 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void initListener() {
         btnScan.setOnClickListener(this);
         btnConnect.setOnClickListener(this);
+        btnTest.setOnClickListener(this);
     }
 
     private void mayRequestLocation() {
@@ -217,4 +220,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
             mBluetoothAdapter.disable();
         }
     }
+
 }

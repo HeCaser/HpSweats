@@ -150,7 +150,7 @@ public class ConnectActivity2 extends Activity implements View.OnClickListener {
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
         BluetoothGatt mConnGatt = bleDevie.connectGatt(this, false, mGattcallback);
-        mHandler.sendEmptyMessageDelayed(CHECK_SUCCESS, CHECK_INTERVAL);//产看是否连接成功
+        mHandler.sendEmptyMessageDelayed(CHECK_SUCCESS, CHECK_INTERVAL);//查看是否连接成功
         return true;
     }
 
